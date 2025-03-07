@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.21.0">
+  <bpmn:process id="MyWorkerProcess" name="My Worker Process" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1" name="Start worker Process">
+      <bpmn:outgoing>Flow_1cmqfjw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_0x6ir2l" name="End worker process">
+      <bpmn:incoming>Flow_1spbr5g</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="say-hello" name="Say hello to&#10;demo" camunda:candidateUsers="demo">
+      <bpmn:incoming>Flow_1k3bypj</bpmn:incoming>
+      <bpmn:outgoing>Flow_025z3b3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1cmqfjw" sourceRef="StartEvent_1" targetRef="sendEmailTask" />
+    <bpmn:serviceTask id="sendEmailTask" name="Send Email Worker Task" camunda:type="external" camunda:topic="sendEmail">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="email">test@gmail.com</camunda:inputParameter>
+          <camunda:inputParameter name="subject">Hello Worker</camunda:inputParameter>
+          <camunda:inputParameter name="content">Hello</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1cmqfjw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k3bypj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1k3bypj" sourceRef="sendEmailTask" targetRef="say-hello" />
+    <bpmn:sequenceFlow id="Flow_025z3b3" sourceRef="say-hello" targetRef="Activity_0hj9erb" />
+    <bpmn:serviceTask id="Activity_0hj9erb" name="Email report worker task" camunda:type="external" camunda:topic="generateReport">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="reportType">Test Report</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_025z3b3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0i3eebf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0i3eebf" sourceRef="Activity_0hj9erb" targetRef="Activity_15587uq" />
+    <bpmn:userTask id="Activity_15587uq" name="Report task">
+      <bpmn:incoming>Flow_0i3eebf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1spbr5g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1spbr5g" sourceRef="Activity_15587uq" targetRef="EndEvent_0x6ir2l" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="MyWorkerProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="169" y="142" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01nio68_di" bpmnElement="sendEmailTask">
+        <dc:Bounds x="290" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08mft2c_di" bpmnElement="say-hello">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18de00p_di" bpmnElement="Activity_0hj9erb">
+        <dc:Bounds x="570" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00oalxu_di" bpmnElement="Activity_15587uq">
+        <dc:Bounds x="710" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="902" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="893" y="142" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1cmqfjw_di" bpmnElement="Flow_1cmqfjw">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="290" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k3bypj_di" bpmnElement="Flow_1k3bypj">
+        <di:waypoint x="390" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_025z3b3_di" bpmnElement="Flow_025z3b3">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="570" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0i3eebf_di" bpmnElement="Flow_0i3eebf">
+        <di:waypoint x="670" y="117" />
+        <di:waypoint x="710" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1spbr5g_di" bpmnElement="Flow_1spbr5g">
+        <di:waypoint x="810" y="117" />
+        <di:waypoint x="902" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
