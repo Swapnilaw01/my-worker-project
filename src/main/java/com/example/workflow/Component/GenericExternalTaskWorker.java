@@ -27,7 +27,7 @@ public class GenericExternalTaskWorker {
     @PostConstruct
     public void subscribeToTopics() {
         ExternalTaskClient client = ExternalTaskClient.create()
-                .baseUrl("http://localhost:8080/engine-rest")
+                .baseUrl("http://localhost:9090/engine-rest")
                 .workerId("multi-topic-worker")
                 .lockDuration(10000)
                 .build();
