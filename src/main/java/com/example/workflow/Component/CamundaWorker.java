@@ -10,7 +10,7 @@ public class CamundaWorker implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Connect to Camunda engine
         ExternalTaskClient client = ExternalTaskClient.create()
-                .baseUrl("http://localhost:8080/engine-rest")
+                .baseUrl("http://localhost:9090/engine-rest")
                 .workerId("java-worker")
                 .lockDuration(10000) // milliseconds
                 .build();
